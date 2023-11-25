@@ -1,6 +1,6 @@
 <script>
 	import '@fontsource-variable/josefin-sans';
-	import { signIn, signOut } from '@auth/sveltekit/client';
+	import Header from '$lib/components/header.svelte';
 
 	import { page } from '$app/stores';
 
@@ -12,14 +12,8 @@
 	<meta name="description" content="Svelte todo app" />
 </svelte:head>
 
-<section>
-	{#if $page.data.session}
-		<button on:click={() => signOut()}>Sign Out</button>
-	{:else}
-		<button on:click={() => signIn('google')}>Sign In</button>
-	{/if}
-	Test
-</section>
+<Header session={$page.data.session} />
+<main>Test</main>
 
 <style>
 	:global(body) {
