@@ -7,5 +7,16 @@ import prisma from '$lib/prisma';
 export const handle = SvelteKitAuth({
 	providers: [GoogleProvider({ clientId: GOOGLE_CLIENT_ID, clientSecret: GOOGLE_CLIENT_SECRET })],
 	secret: AUTH_SECRET,
-	adapter: PrismaAdapter(prisma)
+	adapter: PrismaAdapter(prisma),
+	callbacks: {
+		session: async ({ session, user }) => {
+			return {
+				...session,
+				user: {
+					...session.user,
+					id: user.id
+				}
+			};
+		}
+	}
 });
