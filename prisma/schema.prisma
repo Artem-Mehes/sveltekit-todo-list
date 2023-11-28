@@ -11,9 +11,10 @@ datasource db {
 }
 
 model Todo {
-  id     Int     @id @default(autoincrement())
-  text   String
-  userId String?
+  id        Int      @id @default(autoincrement())
+  text      String
+  userId    String?
+  createdAt DateTime @default(now())
 
   User User? @relation(fields: [userId], references: [id])
 }
@@ -46,13 +47,14 @@ model Session {
 }
 
 model User {
-  id       String    @id @default(cuid())
-  name     String?
-  email    String?   @unique
-  image    String?
-  accounts Account[]
-  sessions Session[]
-  todos    Todo[]
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  image         String?
+  accounts      Account[]
+  emailVerified DateTime?
+  sessions      Session[]
+  todos         Todo[]
 }
 
 model VerificationToken {

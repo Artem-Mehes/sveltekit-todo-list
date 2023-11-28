@@ -21,7 +21,7 @@
 		<main>
 			<CreateTodo />
 
-			<TodoList />
+			<TodoList data={$page.data.todos} />
 		</main>
 	</div>
 </div>

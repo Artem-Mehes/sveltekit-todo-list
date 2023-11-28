@@ -2,6 +2,7 @@
 // for information about these interfaces
 
 import type { User, Session } from '@auth/core/types';
+import type { Todo } from '@prisma/client';
 
 declare global {
 	namespace App {
@@ -12,6 +13,10 @@ declare global {
 				  } & Session)
 				| null
 			>;
+		}
+		interface PageData {
+			todos: Todo[];
+			session: Session | null;
 		}
 	}
 }

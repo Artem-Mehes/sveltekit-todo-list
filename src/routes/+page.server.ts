@@ -3,8 +3,29 @@ import prisma from '$lib/prisma';
 import type { PageServerLoad, Actions } from './$types';
 
 export const load: PageServerLoad = async (event) => {
+	const session = await event.locals.getSession();
+
+	const userId = session?.user.id;
+
+	if (userId) {
+		const todos = await prisma.todo.findMany({
+			orderBy: {
+				createdAt: 'desc'
+			},
+			where: {
+				userId
+			}
+		});
+
+		return {
+			todos,
+			session
+		};
+	}
+
 	return {
-		session: await event.locals.getSession()
+		session,
+		todos: []
 	};
 };
 
