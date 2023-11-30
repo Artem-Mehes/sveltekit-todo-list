@@ -5,27 +5,14 @@ import type { PageServerLoad, Actions } from './$types';
 export const load: PageServerLoad = async (event) => {
 	const session = await event.locals.getSession();
 
-	const userId = session?.user.id;
-
-	if (userId) {
-		const todos = await prisma.todo.findMany({
-			orderBy: {
-				createdAt: 'desc'
-			},
-			where: {
-				userId
-			}
-		});
-
-		return {
-			todos,
-			session
-		};
-	}
+	const response = await event.fetch('/api/todos', {
+		method: 'GET'
+	});
+	const todos = await response.json();
 
 	return {
 		session,
-		todos: []
+		todos
 	};
 };
 

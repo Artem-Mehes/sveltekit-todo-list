@@ -11,10 +11,11 @@ datasource db {
 }
 
 model Todo {
-  id        Int      @id @default(autoincrement())
-  text      String
-  userId    String?
-  createdAt DateTime @default(now())
+  id          Int      @id @default(autoincrement())
+  text        String
+  userId      String?
+  isCompleted Boolean  @default(false)
+  createdAt   DateTime @default(now())
 
   User User? @relation(fields: [userId], references: [id])
 }

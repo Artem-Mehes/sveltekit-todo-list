@@ -4,15 +4,18 @@
 
 	export let data: Todo[];
 
-	async function deleteTodo(id: number) {
-		await fetch('/', {
-			method: 'DELETE',
-			body: JSON.stringify({ id }),
-			headers: {
-				'Content-Type': 'application/json'
-			}
+	async function deleteTodo(id: Todo['id']) {
+		await fetch(`/api/todos/${id}`, {
+			method: 'DELETE'
 		});
 
+		await invalidateAll();
+	}
+
+	async function complete(id: Todo['id']) {
+		await fetch(`api/todos/complete/${id}`, {
+			method: 'POST'
+		});
 		await invalidateAll();
 	}
 </script>
@@ -21,8 +24,12 @@
 	{#each data as todo (todo.id)}
 		<li>
 			{todo.text}
+			{#if todo.isCompleted}
+				<span>Completed</span>
+			{:else}
+				<button class="text-green-600" on:click={() => complete(todo.id)}>Complete</button>
+			{/if}
 			<button class="text-red-500" on:click={() => deleteTodo(todo.id)}>Delete</button>
 		</li>
 	{/each}
-	<li />
 </ul>

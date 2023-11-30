@@ -2,12 +2,12 @@ import type { RequestEvent } from '@sveltejs/kit';
 import prisma from '$lib/prisma';
 import { error } from '@sveltejs/kit';
 
-export async function DELETE({ request }: RequestEvent) {
+export async function DELETE({ params }: RequestEvent) {
 	try {
-		const params = await request.json();
+		const id = params.todoId;
 
 		await prisma.todo.delete({
-			where: params
+			where: { id: Number(id) }
 		});
 
 		return new Response(JSON.stringify({ message: 'Todo deleted successfully' }), {
